@@ -34,12 +34,10 @@ public class NovelaDetailFragment extends Fragment {
 
         TextView titleTextView = view.findViewById(R.id.textViewTitle);
         TextView authorTextView = view.findViewById(R.id.textViewAuthor);
-        TextView synopsisTextView = view.findViewById(R.id.textViewSynopsis);
 
         if (novela != null) {
             titleTextView.setText(novela.getTitle());
             authorTextView.setText(novela.getAuthor());
-            synopsisTextView.setText(novela.getSynopsis());
         }
 
         return view;

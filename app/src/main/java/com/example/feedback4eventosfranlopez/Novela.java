@@ -3,8 +3,6 @@ package com.example.feedback4eventosfranlopez;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-
 public class Novela implements Parcelable {
     private int id;
     private String title;
@@ -65,8 +63,31 @@ public class Novela implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(@NonNull Parcel parcel, int i) {
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(title);
+        dest.writeString(author);
+        dest.writeByte((byte) (isFavorite ? 1 : 0));
+    }
 
+    // CREATOR necesario para Parcelable
+    public static final Parcelable.Creator<Novela> CREATOR = new Parcelable.Creator<Novela>() {
+        @Override
+        public Novela createFromParcel(Parcel in) {
+            return new Novela(in);
+        }
+
+        @Override
+        public Novela[] newArray(int size) {
+            return new Novela[size];
+        }
+    };
+
+    // Constructor que lee desde Parcel
+    protected Novela(Parcel in) {
+        id = in.readInt();
+        title = in.readString();
+        author = in.readString();
+        isFavorite = in.readByte() != 0;
     }
 }
-
