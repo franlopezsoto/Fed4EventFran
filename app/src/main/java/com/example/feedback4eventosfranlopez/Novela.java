@@ -90,4 +90,8 @@ public class Novela implements Parcelable {
         author = in.readString();
         isFavorite = in.readByte() != 0;
     }
+    public void updateNovela(String title, String author) {
+        this.title = title;
+        this.author = author;
+    }
 }

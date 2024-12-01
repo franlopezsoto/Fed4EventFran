@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:id="@+id/widget_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="8dp"
-    android:background="@android:color/white">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="8dp">
 
+    <!-- Encabezado del widget -->
     <TextView
         android:id="@+id/widget_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/widget_title"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:gravity="center"
+        android:padding="4dp"
+        android:textColor="@color/black" />
+
+    <!-- Lista de favoritos -->
+    <ListView
+        android:id="@+id/widget_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp"
         android:padding="4dp" />
 
-    <ListView
-        android:id="@+id/widget_list_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 </LinearLayout>
-

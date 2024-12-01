@@ -19,10 +19,13 @@ public class NovelasFavoritesRemoteViewsService implements RemoteViewsService.Re
     @Override
     public void onCreate() {
         favoriteNovelas = new ArrayList<>();
+        // Carga inicial para evitar listas vacías
+        loadInitialData();
     }
 
     @Override
     public void onDataSetChanged() {
+        // Actualiza los datos; en este caso, simula datos
         favoriteNovelas.clear();
         favoriteNovelas.add("Cien años de soledad");
         favoriteNovelas.add("Don Quijote de la Mancha");
@@ -36,16 +39,19 @@ public class NovelasFavoritesRemoteViewsService implements RemoteViewsService.Re
 
     @Override
     public int getCount() {
-        return favoriteNovelas.size();
+        return favoriteNovelas != null ? favoriteNovelas.size() : 0;
     }
 
     @Override
     public RemoteViews getViewAt(int position) {
-        if (position == RemoteViewsService.RemoteViewsFactory.INVALID_POSITION || favoriteNovelas.isEmpty()) {
+        // Validación robusta de la posición
+        if (favoriteNovelas == null || favoriteNovelas.isEmpty() || position < 0 || position >= favoriteNovelas.size()) {
             return null;
         }
 
         String novelaTitle = favoriteNovelas.get(position);
+
+        // Configura la vista para este elemento
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_item);
         views.setTextViewText(R.id.widget_item_text, novelaTitle);
 
@@ -54,12 +60,12 @@ public class NovelasFavoritesRemoteViewsService implements RemoteViewsService.Re
 
     @Override
     public RemoteViews getLoadingView() {
-        return null;
+        return null; // O podrías crear una vista de carga personalizada si lo prefieres
     }
 
     @Override
     public int getViewTypeCount() {
-        return 1;
+        return 1; // Solo hay un tipo de vista en este ejemplo
     }
 
     @Override
@@ -69,6 +75,12 @@ public class NovelasFavoritesRemoteViewsService implements RemoteViewsService.Re
 
     @Override
     public boolean hasStableIds() {
-        return true;
+        return true; // Los IDs no cambian
+    }
+
+    // Carga inicial para evitar listas vacías
+    private void loadInitialData() {
+        favoriteNovelas.add("Sin favoritos aún");
     }
 }
+
