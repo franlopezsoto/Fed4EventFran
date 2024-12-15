@@ -15,6 +15,16 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="16dp" />
 
+    <!-- Botón para ver el mapa -->
+    <Button
+        android:id="@+id/buttonViewMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ver Mapa"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp" />
+
     <!-- RecyclerView para mostrar la lista de novelas -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -26,4 +36,3 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

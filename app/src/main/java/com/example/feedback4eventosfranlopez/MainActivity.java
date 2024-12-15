@@ -1,5 +1,6 @@
 package com.example.feedback4eventosfranlopez;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements NovelaAdapter.OnNovelaClickListener {
 
     private Button buttonAddBook;
+    private Button buttonViewMap;
     private RecyclerView recyclerView;
     private NovelaAdapter novelaAdapter;
     private ArrayList<Novela> novelas;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements NovelaAdapter.OnN
         setContentView(R.layout.activity_main);
 
         buttonAddBook = findViewById(R.id.buttonAddBook);
+        buttonViewMap = findViewById(R.id.buttonViewMap);
         recyclerView = findViewById(R.id.recyclerView);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements NovelaAdapter.OnN
         loadNovelas();
 
         buttonAddBook.setOnClickListener(v -> addNovela());
+        buttonViewMap.setOnClickListener(v -> viewMap());
     }
 
     private void loadNovelas() {
@@ -52,6 +56,11 @@ public class MainActivity extends AppCompatActivity implements NovelaAdapter.OnN
         Toast.makeText(this, "Nueva novela añadida", Toast.LENGTH_SHORT).show();
     }
 
+    private void viewMap() {
+        Intent intent = new Intent(this, MapActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onNovelaClick(Novela novela) {
         Toast.makeText(this, "Seleccionado: " + novela.getTitle(), Toast.LENGTH_SHORT).show();
@@ -59,29 +68,11 @@ public class MainActivity extends AppCompatActivity implements NovelaAdapter.OnN
 
     @Override
     public void onNovelaEdit(Novela novela, int position) {
-        showEditDialog(novela, position);
-    }
-
-    private void showEditDialog(Novela novela, int position) {
-        // Crear un cuadro de diálogo para editar la novela
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_edit_novela, null);
-        EditText editTitle = dialogView.findViewById(R.id.editTextTitle);
-        EditText editAuthor = dialogView.findViewById(R.id.editTextAuthor);
-
-
-        editTitle.setText(novela.getTitle());
-        editAuthor.setText(novela.getAuthor());
-
-        new AlertDialog.Builder(this)
-                .setTitle("Editar Novela")
-                .setView(dialogView)
-                .setPositiveButton("Guardar", (dialog, which) -> {
-                    String newTitle = editTitle.getText().toString();
-                    String newAuthor = editAuthor.getText().toString();
-                    novelaAdapter.updateNovela(position, newTitle, newAuthor);
-                    Toast.makeText(this, "Novela actualizada", Toast.LENGTH_SHORT).show();
-                })
-                .setNegativeButton("Cancelar", null)
-                .show();
+        EditNovelaDialogFragment dialog = EditNovelaDialogFragment.newInstance(novela);
+        dialog.setOnNovelaUpdatedListener(updatedNovela -> {
+            novelaAdapter.updateNovela(position, updatedNovela.getTitle(), updatedNovela.getAuthor(), updatedNovela.getLatitude(), updatedNovela.getLongitude());
+            Toast.makeText(this, "Novela actualizada", Toast.LENGTH_SHORT).show();
+        });
+        dialog.show(getSupportFragmentManager(), "EditNovelaDialog");
     }
 }

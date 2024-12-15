@@ -20,6 +20,20 @@
         android:hint="Autor de la novela"
         android:padding="8dp" />
 
+    <EditText
+        android:id="@+id/editTextLatitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Latitud"
+        android:padding="8dp" />
+
+    <EditText
+        android:id="@+id/editTextLongitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Longitud"
+        android:padding="8dp" />
+
     <Button
         android:id="@+id/buttonSave"
         android:layout_width="match_parent"

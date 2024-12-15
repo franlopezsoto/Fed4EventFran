@@ -53,24 +53,14 @@ public class NovelaAdapter extends RecyclerView.Adapter<NovelaAdapter.NovelaView
         notifyDataSetChanged();
     }
 
-    // Método con tres parámetros
-    public void updateNovela(int position, String title, String author) {
+    public void updateNovela(int position, String title, String author, double latitude, double longitude) {
         if (position >= 0 && position < novelas.size()) {
             Novela novela = novelas.get(position);
             novela.setTitle(title);
             novela.setAuthor(author);
+            novela.setLatitude(latitude);
+            novela.setLongitude(longitude);
             notifyItemChanged(position);
-        }
-    }
-
-    // Método que acepta un objeto Novela
-    public void updateNovela(int position, Novela updatedNovela) {
-        for (int i = 0; i < novelas.size(); i++) {
-            if (novelas.get(i).getId() == updatedNovela.getId()) {
-                novelas.set(i, updatedNovela);
-                notifyItemChanged(i);
-                break;
-            }
         }
     }
 

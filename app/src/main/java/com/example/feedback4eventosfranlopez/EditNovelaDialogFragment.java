@@ -13,7 +13,7 @@ import androidx.fragment.app.DialogFragment;
 public class EditNovelaDialogFragment extends DialogFragment {
 
     private static final String ARG_NOVELA = "novela";
-    private EditText editTextTitle, editTextAuthor;
+    private EditText editTextTitle, editTextAuthor, editTextLatitude, editTextLongitude;
     private Button buttonSave, buttonCancel;
     private Novela novela;
     private OnNovelaUpdatedListener listener;
@@ -38,6 +38,8 @@ public class EditNovelaDialogFragment extends DialogFragment {
         // Inicializar las vistas
         editTextTitle = view.findViewById(R.id.editTextTitle);
         editTextAuthor = view.findViewById(R.id.editTextAuthor);
+        editTextLatitude = view.findViewById(R.id.editTextLatitude);
+        editTextLongitude = view.findViewById(R.id.editTextLongitude);
         buttonSave = view.findViewById(R.id.buttonSave);
         buttonCancel = view.findViewById(R.id.buttonCancel);
 
@@ -47,6 +49,8 @@ public class EditNovelaDialogFragment extends DialogFragment {
             if (novela != null) {
                 editTextTitle.setText(novela.getTitle());
                 editTextAuthor.setText(novela.getAuthor());
+                editTextLatitude.setText(String.valueOf(novela.getLatitude()));
+                editTextLongitude.setText(String.valueOf(novela.getLongitude()));
             }
         }
 
@@ -55,6 +59,8 @@ public class EditNovelaDialogFragment extends DialogFragment {
             if (novela != null) {
                 novela.setTitle(editTextTitle.getText().toString());
                 novela.setAuthor(editTextAuthor.getText().toString());
+                novela.setLatitude(Double.parseDouble(editTextLatitude.getText().toString()));
+                novela.setLongitude(Double.parseDouble(editTextLongitude.getText().toString()));
                 if (listener != null) {
                     listener.onNovelaUpdated(novela);
                 }

@@ -8,23 +8,30 @@ public class Novela implements Parcelable {
     private String title;
     private String author;
     private boolean isFavorite;
+    private double latitude;
+    private double longitude;
 
-    // Constructor con ID para cuando se lee desde la base de datos
-    public Novela(int id, String title, String author, boolean isFavorite) {
+    // Constructor with location
+    public Novela(int id, String title, String author, boolean isFavorite, double latitude, double longitude) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.isFavorite = isFavorite;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    // Constructor sin ID para cuando se crea una nueva novela
+    // Constructor without location
+    public Novela(int id, String title, String author, boolean isFavorite) {
+        this(id, title, author, isFavorite, 0.0, 0.0);
+    }
+
+    // Constructor without ID for new novels
     public Novela(String title, String author, boolean isFavorite) {
-        this.title = title;
-        this.author = author;
-        this.isFavorite = isFavorite;
+        this(-1, title, author, isFavorite, 0.0, 0.0);
     }
 
-    // Getters y Setters
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -57,6 +64,22 @@ public class Novela implements Parcelable {
         isFavorite = favorite;
     }
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -68,9 +91,10 @@ public class Novela implements Parcelable {
         dest.writeString(title);
         dest.writeString(author);
         dest.writeByte((byte) (isFavorite ? 1 : 0));
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
     }
 
-    // CREATOR necesario para Parcelable
     public static final Parcelable.Creator<Novela> CREATOR = new Parcelable.Creator<Novela>() {
         @Override
         public Novela createFromParcel(Parcel in) {
@@ -83,15 +107,12 @@ public class Novela implements Parcelable {
         }
     };
 
-    // Constructor que lee desde Parcel
     protected Novela(Parcel in) {
         id = in.readInt();
         title = in.readString();
         author = in.readString();
         isFavorite = in.readByte() != 0;
-    }
-    public void updateNovela(String title, String author) {
-        this.title = title;
-        this.author = author;
+        latitude = in.readDouble();
+        longitude = in.readDouble();
     }
 }

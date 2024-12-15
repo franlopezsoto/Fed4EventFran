@@ -20,7 +20,6 @@ public class NovelasListFragment extends Fragment {
     private NovelaAdapter novelaAdapter;
     private NovelaViewModel novelaViewModel;
 
-    // Interfaz para manejar la selección de novelas
     public interface OnNovelaSelectedListener {
         void onNovelaSelected(Novela novela);
     }
@@ -34,7 +33,6 @@ public class NovelasListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setHasFixedSize(true);
 
-        // Configuración del adaptador
         novelaAdapter = new NovelaAdapter(new NovelaAdapter.OnNovelaClickListener() {
             @Override
             public void onNovelaClick(Novela novela) {
@@ -45,19 +43,13 @@ public class NovelasListFragment extends Fragment {
 
             @Override
             public void onNovelaEdit(Novela novela, int position) {
-                // Abrir un diálogo para editar los detalles de la novela
                 EditNovelaDialogFragment dialog = EditNovelaDialogFragment.newInstance(novela);
-                dialog.setOnNovelaUpdatedListener(new EditNovelaDialogFragment.OnNovelaUpdatedListener() {
-                    @Override
-                    public void onNovelaUpdated(Novela updatedNovela) {
-                        // Actualizar la novela en el adaptador y ViewModel
-                        novelaAdapter.updateNovela(position, updatedNovela);
-                        novelaViewModel.updateNovela(updatedNovela); // Asegúrate de tener un método en el ViewModel
-                    }
+                dialog.setOnNovelaUpdatedListener(updatedNovela -> {
+                    novelaAdapter.updateNovela(position, updatedNovela.getTitle(), updatedNovela.getAuthor(), updatedNovela.getLatitude(), updatedNovela.getLongitude());
+                    novelaViewModel.updateNovela(updatedNovela);
                 });
                 dialog.show(getParentFragmentManager(), "EditNovelaDialog");
             }
-
         });
 
         recyclerView.setAdapter(novelaAdapter);
